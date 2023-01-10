@@ -16,13 +16,16 @@ import {
   remove
 } from 'firebase/database';
 import { db } from './firebase-config.js';
+import axios from 'axios';
 
 const App = () => {
   const [todos, setTodos] = useState({});
   const [presentTodo, setPresentTodo] = useState('');
   const todosKeys = Object.keys(todos);
+  const [quote, setQuote] = useState();
 
   useEffect(() => {
+    fetchAdvice();
     return onValue(ref(db, '/todos'), querySnapShot => {
       let data = querySnapShot.val() || {};
       let todoItems = { ...data };
@@ -40,6 +43,14 @@ const App = () => {
 
   function clearTodos() {
     remove(ref(db, '/todos'));
+  }
+
+  function fetchAdvice() {
+    axios.get('https://api.adviceslip.com/advice')
+      .then((response) => {
+        const { advice } = response.data.slip;
+        setQuote(advice);
+      })
   }
 
   return (
@@ -61,7 +72,7 @@ const App = () => {
       </View>
 
       <TextInput
-        placeholder="New todo"
+        placeholder="New To Do"
         value={presentTodo}
         style={styles.textInput}
         onChangeText={text => {
@@ -73,7 +84,7 @@ const App = () => {
       <View>
         <View style={{ marginTop: 20 }}>
           <Button
-            title="Add new todo"
+            title="Add New To Do"
             onPress={addNewTodo}
             color="green"
             disabled={presentTodo == ''}
@@ -82,12 +93,21 @@ const App = () => {
 
         <View style={{ marginTop: 20 }}>
           <Button
-            title="Clear the todo list"
+            title="Clear To Do List"
             onPress={clearTodos}
             color="red"
             style={{ marginTop: 20 }}
           />
         </View>
+      </View>
+      <View style={styles.quoteContainer}>
+        <Text>{quote}</Text>
+        <Button
+          title="Get New Quote"
+          onPress={fetchAdvice}
+          color="orange"
+          style={{ marginTop: 20 }}
+        />
       </View>
     </ScrollView>
   );
@@ -142,6 +162,15 @@ const styles = StyleSheet.create({
   todoText: {
     paddingHorizontal: 5,
     fontSize: 16
+  },
+  quoteContainer: {
+    marginTop: 20,
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    padding: 25,
   },
 });
 
