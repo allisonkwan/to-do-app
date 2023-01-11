@@ -1,7 +1,9 @@
 # To-Do App
-Functionality includes creating and checking off to-do items as well as clearing all items from the list.
+Functionality includes creating and checking off to-do items as well as clearing all items from the list. Users can also tap a button to generate fun quotes.
 
 ## Running the App using Expo
+If you don't already have Node and npm installed on your machine, follow the [documentation](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) to install it using the terminal.
+
 Use the following command within the project directory to build the project:
 ```
 npx expo start
