@@ -86,7 +86,7 @@ const App = () => {
           <Button
             title="Add New To Do"
             onPress={addNewTodo}
-            color="green"
+            color="blue"
             disabled={presentTodo == ''}
           />
         </View>
@@ -105,7 +105,7 @@ const App = () => {
         <Button
           title="Get New Quote"
           onPress={fetchAdvice}
-          color="orange"
+          color="purple"
           style={{ marginTop: 20 }}
         />
       </View>
